@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
+@RequestMapping("/realty")
 public class RealtyController {
 
     private final RealtyService realtyService;
@@ -21,7 +22,9 @@ public class RealtyController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllRealty(Integer pageNum, Integer pageSize) {
+    public ResponseEntity<?> getAll(
+            @RequestParam(required = false) Integer pageNum,
+            @RequestParam(required = false) Integer pageSize) {
 
         if (pageNum != null && pageNum > -1 && pageSize != null && pageSize > 0) {
             Pageable pageable = PageRequest.of(pageNum, pageSize);
@@ -31,7 +34,7 @@ public class RealtyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getRealty(@PathVariable final Long id) {
+    public ResponseEntity<?> getById(@PathVariable final Long id) {
         try {
             return ResponseEntity.ok().body(realtyService.getById(id));
         } catch (Exception e) {
@@ -40,7 +43,7 @@ public class RealtyController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addRealty(@RequestBody final Realty realty) {
+    public ResponseEntity<?> create(@RequestBody final Realty realty) {
         try {
             realtyService.save(realty);
             return new ResponseEntity<>("Данный обьект успешно добавлен ", NO_CONTENT);
@@ -50,8 +53,8 @@ public class RealtyController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateRealty(@RequestBody final  Realty realty) {
-        if(!realtyService.existsById(realty.getId())) {
+    public ResponseEntity<?> update(@RequestBody final Realty realty) {
+        if (!realtyService.existsById(realty.getId())) {
             return new ResponseEntity<>("Данный обьект не найден ", NOT_FOUND);
         }
         try {
@@ -63,7 +66,7 @@ public class RealtyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRealty(@PathVariable final Long id){
+    public ResponseEntity<?> deleteById(@PathVariable final Long id) {
         try {
             realtyService.deleteById(id);
             return new ResponseEntity<>("Данный обьект успешно удален ", NO_CONTENT);

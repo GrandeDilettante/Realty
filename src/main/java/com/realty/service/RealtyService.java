@@ -3,10 +3,9 @@ package com.realty.service;
 import com.realty.entity.Realty;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.Optional;
 
-@Service
 public interface RealtyService {
 
     List<Realty> getAll(Pageable pageable);
@@ -14,7 +13,7 @@ public interface RealtyService {
 
     Realty save(Realty realty);
 
-    Realty getById(Long id);
+    Optional<Realty> getById(Long id);
 
     void deleteById(Long id);
 

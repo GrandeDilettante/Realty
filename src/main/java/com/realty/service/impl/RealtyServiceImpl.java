@@ -1,16 +1,15 @@
 package com.realty.service.impl;
 
-import com.realty.dao.RealtyRepository;
+import com.realty.repository.RealtyRepository;
 import com.realty.entity.Realty;
 import com.realty.service.RealtyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Pageable;
-import org.webjars.NotFoundException;
-
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class RealtyServiceImpl implements RealtyService {
 
     private RealtyRepository realtyRepository;
@@ -31,12 +30,8 @@ public class RealtyServiceImpl implements RealtyService {
     }
 
     @Override
-    public Realty getById(Long id) {
-        Optional<Realty> realty = realtyRepository.findById(id);
-        if(!realty.isEmpty()) {
-            return realty.get();
-        } else
-            throw new NotFoundException("Not found");
+    public Optional<Realty> getById(Long id) {
+        return realtyRepository.findById(id);
     }
 
     @Override
@@ -46,11 +41,7 @@ public class RealtyServiceImpl implements RealtyService {
 
     @Override
     public void deleteById(Long id) {
-        Optional<Realty> realty = realtyRepository.findById(id);
-        if(realty.isPresent()) {
-            realtyRepository.deleteById(realty);
-        } else
-            throw new NotFoundException("Not found");
+            realtyRepository.deleteById(id);
     }
 
     @Override
