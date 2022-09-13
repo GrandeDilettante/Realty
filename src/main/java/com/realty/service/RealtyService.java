@@ -2,7 +2,6 @@ package com.realty.service;
 
 import com.realty.entity.Realty;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +12,7 @@ public interface RealtyService {
 
     Realty save(Realty realty);
 
-    Optional<Realty> getById(Long id);
+    Realty getById(Long id);
 
     void deleteById(Long id);
 

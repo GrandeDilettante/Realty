@@ -35,11 +35,10 @@ public class RealtyController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable final Long id) {
-        try {
-            return ResponseEntity.ok().body(realtyService.getById(id));
-        } catch (Exception e) {
+        if (!realtyService.existsById(id)) {
             return new ResponseEntity<>("Данный обьект не найден ", NOT_FOUND);
-        }
+        } else
+            return ResponseEntity.ok().body(realtyService.getById(id));
     }
 
     @PostMapping
