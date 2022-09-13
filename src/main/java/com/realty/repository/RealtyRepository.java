@@ -8,6 +8,4 @@ import java.util.Optional;
 @Repository
 public interface RealtyRepository extends JpaRepository<Realty,Long> {
     void deleteById(Optional<Realty> realty);
-
-    Realty getReferenceById();
 }
