@@ -35,8 +35,7 @@ public class RealtyServiceImpl implements RealtyService {
     @Transactional(readOnly = true)
     @Override
     public Realty getById(Long id) {
-        Optional<Realty> realty = realtyRepository.findById(id);
-        return realty.get();
+       return realtyRepository.getReferenceById();
     }
 
     @Transactional
