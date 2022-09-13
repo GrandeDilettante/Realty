@@ -1,3 +1,4 @@
+CREATE SCHEMA catalogs;
 CREATE SEQUENCE catalogs.mseq
     START WITH 1
     INCREMENT BY 1
