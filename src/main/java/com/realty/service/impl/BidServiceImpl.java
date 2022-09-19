@@ -13,14 +13,12 @@ import java.util.List;
 @Service
 public class BidServiceImpl implements BidService {
 
-
-    private BidRepository bidRepository;
+    private final BidRepository bidRepository;
 
     @Autowired
     public BidServiceImpl(BidRepository bidRepository) {
         this.bidRepository = bidRepository;
     }
-
 
     @Transactional(readOnly = true)
     @Override
@@ -34,9 +32,10 @@ public class BidServiceImpl implements BidService {
         return bidRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
     @Override
-    public List<Bid> getAllByRealtyId(Long realtyId) { return bidRepository.findAllByRealtyId(realtyId); }
+    public List<Bid> getAllByRealtyId(Pageable pageable, Long realtyId) {
+        return bidRepository.findAllByRealtyId(realtyId);
+    }
 
     @Transactional(readOnly = true)
     @Override

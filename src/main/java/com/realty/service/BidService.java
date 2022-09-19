@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface BidService {
 
-
     List<Bid> getAll(Pageable pageable);
     List<Bid> getAll();
-    List<Bid> getAllByRealtyId(Long realtyId);
+
+    List<Bid> getAllByRealtyId(Pageable pageable, Long realtyId);
 
     Bid getById(Long id);
 

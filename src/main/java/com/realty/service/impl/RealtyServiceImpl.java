@@ -1,5 +1,7 @@
 package com.realty.service.impl;
 
+import com.realty.entity.Bid;
+import com.realty.repository.BidRepository;
 import com.realty.repository.RealtyRepository;
 import com.realty.entity.Realty;
 import com.realty.service.RealtyService;
@@ -14,14 +16,16 @@ import java.util.List;
 @Service
 public class RealtyServiceImpl implements RealtyService {
 
-    private RealtyRepository realtyRepository;
+    private final RealtyRepository realtyRepository;
+    private final BidRepository bidRepository;
 
     @Autowired
-    public RealtyServiceImpl(RealtyRepository realtyRepository) {
+    public RealtyServiceImpl(RealtyRepository realtyRepository, BidRepository bidRepository) {
         this.realtyRepository = realtyRepository;
+        this.bidRepository = bidRepository;
     }
 
-    @Transactional(readOnly = true)
+       @Transactional(readOnly = true)
     @Override
     public List<Realty> getAll(Pageable pageable) {
         return realtyRepository.findAll(pageable).getContent();
@@ -38,6 +42,10 @@ public class RealtyServiceImpl implements RealtyService {
     public Realty getById(Long id) {
        return realtyRepository.getReferenceById(id);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Bid> getAllByRealtyId(Long realtyId) { return bidRepository.findAllByRealtyId(realtyId); }
 
     @Transactional
     @Override

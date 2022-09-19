@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface BidRepository extends JpaRepository<Bid,Long> {
-    List<Bid> findAllByRealtyId(Long id);
+    List<Bid> findAllByRealtyId(Long realtyId);
 }
