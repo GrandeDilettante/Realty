@@ -25,7 +25,7 @@ public class RealtyServiceImpl implements RealtyService {
         this.bidRepository = bidRepository;
     }
 
-       @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     @Override
     public List<Realty> getAll(Pageable pageable) {
         return realtyRepository.findAll(pageable).getContent();
@@ -40,7 +40,7 @@ public class RealtyServiceImpl implements RealtyService {
     @Transactional(readOnly = true)
     @Override
     public Realty getById(Long id) {
-       return realtyRepository.getReferenceById(id);
+        return realtyRepository.getReferenceById(id);
     }
 
     @Transactional(readOnly = true)
@@ -49,19 +49,13 @@ public class RealtyServiceImpl implements RealtyService {
 
     @Transactional
     @Override
-    public Realty save(Realty realty) {
-        return realtyRepository.save(realty);
-    }
+    public Realty save(Realty realty) { return realtyRepository.save(realty); }
 
     @Transactional
     @Override
-    public void deleteById(Long id) {
-            realtyRepository.deleteById(id);
-    }
+    public void deleteById(Long id) { realtyRepository.deleteById(id); }
 
     @Transactional(readOnly = true)
     @Override
-    public boolean existsById(Long id) {
-        return realtyRepository.existsById(id);
-    }
+    public boolean existsById(Long id) { return realtyRepository.existsById(id); }
 }

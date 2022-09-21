@@ -10,7 +10,7 @@ public interface BidService {
     List<Bid> getAll(Pageable pageable);
     List<Bid> getAll();
 
-    List<Bid> getAllByRealtyId(Pageable pageable, Long realtyId);
+    List<Bid> getAllByRealtyId(Long realtyId, Pageable pageable);
 
     Bid getById(Long id);
 
@@ -20,4 +20,5 @@ public interface BidService {
 
     boolean existsById(Long id);
 
+    List<Bid> getAllByRealtyId(Long realtyId);
 }

@@ -1,6 +1,7 @@
 package com.realty.controller;
 
 import com.realty.entity.Realty;
+import com.realty.service.BidService;
 import com.realty.service.RealtyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -12,18 +13,20 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
-@RequestMapping("/realties")
+@RequestMapping("/realty")
 public class RealtyController {
 
     private final RealtyService realtyService;
+    private final BidService bidService;
 
     @Autowired
-    public RealtyController(RealtyService realtyService) {
+    public RealtyController(RealtyService realtyService, BidService bidService) {
         this.realtyService = realtyService;
+        this.bidService = bidService;
     }
 
     @GetMapping
-    public List getAll(
+    public List<Realty> getAll(
             @RequestParam(required = false) Integer pageNum,
             @RequestParam(required = false) Integer pageSize) {
 
@@ -47,7 +50,7 @@ public class RealtyController {
         if (!realtyService.existsById(id)) {
             return new ResponseEntity<>("Данный обьект не найден ", NOT_FOUND);
         } else
-            return ResponseEntity.ok().body(realtyService.getAllByRealtyId(id));
+            return ResponseEntity.ok().body(bidService.getAllByRealtyId(id));
     }
 
     @PostMapping

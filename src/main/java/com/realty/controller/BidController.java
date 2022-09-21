@@ -18,38 +18,32 @@ import static org.springframework.http.HttpStatus.*;
 public class BidController {
 
     private final BidService bidService;
-    private final RealtyService realtyService;
 
     @Autowired
-    public BidController(BidService bidService, RealtyService realtyService) {
+    public BidController(BidService bidService) {
         this.bidService = bidService;
-        this.realtyService = realtyService;
     }
 
     @GetMapping
-    public List getAll(
-            @RequestParam(required = false) Integer pageNum,
-            @RequestParam(required = false) Integer pageSize) {
-
-        if (pageNum != null && pageNum > -1 && pageSize != null && pageSize > 0) {
-            Pageable pageable = PageRequest.of(pageNum, pageSize);
-            return bidService.getAll(pageable);
-        }
-        return bidService.getAll();
-    }
-
-    @GetMapping("/realty/{realtyId}")
-    public List getAllByRealtyId(
+    public List<Bid> getAll(
             @RequestParam(required = false) Integer pageNum,
             @RequestParam(required = false) Integer pageSize,
-            @PathVariable(required = false) Long realtyId) {
-        if (bidService.existsById(realtyId)) {
+            @RequestParam(required = false) Long realtyId) {
+        if (realtyId != null) {
             if (pageNum != null && pageNum > -1 && pageSize != null && pageSize > 0) {
                 Pageable pageable = PageRequest.of(pageNum, pageSize);
-                return bidService.getAllByRealtyId(pageable, realtyId);
+                return bidService.getAllByRealtyId(realtyId, pageable);
+            } else {
+                return bidService.getAllByRealtyId(realtyId);
+            }
+        } else {
+            if (pageNum != null && pageNum > -1 && pageSize != null && pageSize > 0) {
+                Pageable pageable = PageRequest.of(pageNum, pageSize);
+                return bidService.getAll(pageable);
+            } else {
+                return bidService.getAll();
             }
         }
-        return bidService.getAll();
     }
 
     @GetMapping("/{id}")

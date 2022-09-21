@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = false, exclude = "realty")
+@EqualsAndHashCode(callSuper = true)
 @Table(schema = "catalogs", name = "tbid")
 public class Bid extends BaseEntity {
 
@@ -21,4 +21,9 @@ public class Bid extends BaseEntity {
     private Double value;
     @Column(name = "realty_id")
     private Long realtyId;
+
+//    @EqualsAndHashCode.Exclude
+//    @ManyToOne
+//    @JoinColumn(name = "")
+//    private Realty realty;
 }

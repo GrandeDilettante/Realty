@@ -32,10 +32,9 @@ public class BidServiceImpl implements BidService {
         return bidRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public List<Bid> getAllByRealtyId(Pageable pageable, Long realtyId) {
-        return bidRepository.findAllByRealtyId(realtyId);
-    }
+    public List<Bid> getAllByRealtyId(Long realtyId, Pageable pageable) { return bidRepository.findAllByRealtyId(realtyId,pageable); }
 
     @Transactional(readOnly = true)
     @Override
@@ -55,5 +54,11 @@ public class BidServiceImpl implements BidService {
     @Override
     public boolean existsById(Long id) {
         return bidRepository.existsById(id);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Bid> getAllByRealtyId(Long realtyId) {
+        return bidRepository.findAllByRealtyId(realtyId);
     }
 }
