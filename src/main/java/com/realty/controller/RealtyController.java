@@ -1,5 +1,6 @@
 package com.realty.controller;
 
+import com.realty.dto.RealtyUserDTO;
 import com.realty.entity.Realty;
 import com.realty.service.RealtyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -35,7 +38,7 @@ public class RealtyController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable final Long id) {
-        if (!realtyService.existsById(id)) {
+        if (realtyService.existsById(id)) {
             return new ResponseEntity<>("Данный обьект не найден ", NOT_FOUND);
         } else
             return ResponseEntity.ok().body(realtyService.getById(id));
@@ -53,7 +56,7 @@ public class RealtyController {
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody final Realty realty) {
-        if (!realtyService.existsById(realty.getId())) {
+        if (realtyService.existsById(realty.getId())) {
             return new ResponseEntity<>("Данный обьект не найден ", NOT_FOUND);
         }
         try {
@@ -72,5 +75,39 @@ public class RealtyController {
         } catch (Exception e) {
             return new ResponseEntity<>("Не удалось удалить данный обьект", BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/{id}/users")
+    public List<Long> getUsers(@PathVariable final Long id) {
+        return realtyService.getUsersById(id);
+    }
+
+    @PutMapping("/{id}/users")
+    public ResponseEntity<?> addUser(@PathVariable final Long id, @RequestParam final Long userId) {
+        try {
+            realtyService.addUser(id, userId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e){
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/{id}/users")
+    public ResponseEntity<?> deleteUser(@PathVariable final Long id, @RequestParam final Long userId) {
+        if (realtyService.deleteUser(id, userId) > 0) {
+            return ResponseEntity.ok().build();
+        } else {
+            return new ResponseEntity<>("Не найдено", NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{id}/users/name")
+    public List<String> getUserNamesById(@PathVariable final Long id) {
+        return realtyService.getUserNamesById(id);
+    }
+
+    @GetMapping("/{id}/users/name/DTO")
+    public RealtyUserDTO getAllRealtyUserDTO(@PathVariable final Long id, @RequestParam final Long userId) {
+        return realtyService.getAllRealtyUserDTO(id, userId);
     }
 }

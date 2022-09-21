@@ -4,6 +4,8 @@ import com.realty.entity.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -17,4 +19,18 @@ public class Realty extends BaseEntity {
 //    @OneToMany
 //    @JoinColumn(name = "realty_id")
 //    private Set<Bid> bid;
+
+    @ManyToMany
+    @JoinTable(
+            schema = "catalogs",
+            name = "trealty_users",
+            joinColumns = @JoinColumn(name = "realty_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(schema = "catalogs", name = "trealty_users",
+            joinColumns = @JoinColumn(name = "realty_id"))
+    @Column(name = "user_id")
+    private Set<Long> usersId;
 }

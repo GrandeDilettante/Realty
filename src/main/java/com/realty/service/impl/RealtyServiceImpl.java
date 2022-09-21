@@ -1,7 +1,10 @@
 package com.realty.service.impl;
 
+import com.realty.dto.RealtyUserDTO;
+import com.realty.entity.RealtyUser;
 import com.realty.repository.RealtyRepository;
 import com.realty.entity.Realty;
+import com.realty.repository.RealtyUserRepository;
 import com.realty.service.RealtyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -14,11 +17,14 @@ import java.util.List;
 @Service
 public class RealtyServiceImpl implements RealtyService {
 
-    private RealtyRepository realtyRepository;
+    private final RealtyRepository realtyRepository;
+
+    private final RealtyUserRepository realtyUserRepository;
 
     @Autowired
-    public RealtyServiceImpl(RealtyRepository realtyRepository) {
+    public RealtyServiceImpl(RealtyRepository realtyRepository, RealtyUserRepository realtyUserRepository) {
         this.realtyRepository = realtyRepository;
+        this.realtyUserRepository = realtyUserRepository;
     }
 
     @Transactional(readOnly = true)
@@ -54,6 +60,39 @@ public class RealtyServiceImpl implements RealtyService {
     @Transactional(readOnly = true)
     @Override
     public boolean existsById(Long id) {
-        return realtyRepository.existsById(id);
+        return !realtyRepository.existsById(id);
+    }
+
+    @Transactional
+    @Override
+    public void addUser(Long realtyId, Long userId) {
+        RealtyUser realtyUser = new RealtyUser();
+        realtyUser.setRealtyId(realtyId);
+        realtyUser.setUserId(userId);
+        realtyUserRepository.save(realtyUser);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<Long> getUsersById(Long id) {
+        return realtyRepository.getUsersIdById(id);
+    }
+
+    @Transactional
+    @Override
+    public Integer deleteUser(Long realtyId, Long userId) {
+        return realtyUserRepository.deleteByRealtyIdAndUserId(realtyId, userId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<String> getUserNamesById(Long id) {
+        return realtyRepository.getUserNamesById(id);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public RealtyUserDTO getAllRealtyUserDTO(Long realtyId, Long userId) {
+        return realtyUserRepository.getAllDTO(realtyId, userId);
     }
 }
